@@ -27,43 +27,14 @@ public class YourTask {
 
 	@JobWorker(type = "count_people_under_30_group_01") // TODO: change type according to your group "count_people_under_30_group_XX". XX will be provided.
 	public Map<String, Object> countPeopleUnder30(final ActivatedJob job) {
-		Map<String, Object> processVariables = job.getVariablesAsMap();
-		if (!processVariables.containsKey("input")){
-			LOG.error(INPUT_NOT_FOUND);
-			return Map.of("result", INPUT_NOT_FOUND);
-		}
-		String input = (String) processVariables.get("input");
-		LOG.info(input);
-
+		// TODO: Implement worker to get job and input from process variables from ZeeBe
+		String input = "";
 		return Map.of("result", formatInputAndCountPeopleUnder30(input));
 	}
 
 	private String formatInputAndCountPeopleUnder30(String input) {
-		SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-
-		String[] delimited = input.split("\\|");
-		AtomicInteger result = new AtomicInteger();
-
-		Arrays.stream(delimited).forEach(item -> {
-			Pattern pattern = Pattern.compile("^([A-Za-zÀ-ž\\u0370-\\u03FF\\u0400-\\u04FF]+)(\\d+\\.\\d+\\.\\d+)$");
-			Matcher matcher = pattern.matcher(item);
-
-			if(matcher.matches()) {
-				String date = matcher.group(2);
-				Instant instant = null;
-				try {
-					instant = format.parse(date).toInstant();
-					if(instant.isBefore(format.parse("01.02.1999").toInstant())) {
-						result.incrementAndGet();
-					}
-				} catch (ParseException e) {
-					throw new RuntimeException(e);
-				}
-			} else {
-				System.out.println("Date not matched: " + item);
-			}
-		});
-		return result.toString();
+		// TODO: Implement logic to find number of people under 30
+		return ("");
 	}
 
 
